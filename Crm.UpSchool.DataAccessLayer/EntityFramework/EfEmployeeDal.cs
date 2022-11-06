@@ -15,12 +15,22 @@ namespace Crm.UpSchool.DataAccessLayer.EntityFramework
     {
         public void ChangeEmployeeStatusToFalse(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new Context())
+            {
+                var values = context.Employees.Find(id);
+                values.EmployeeStatus = false;
+                context.SaveChanges();
+            }
         }
 
         public void ChangeEmployeeStatusToTrue(int id)
         {
-            throw new NotImplementedException();
+            using (var context = new Context())
+            {
+                var values = context.Employees.Find(id);
+                values.EmployeeStatus = true;
+                context.SaveChanges();
+            }
         }
 
         public List<Employee> GetEmployeesByCategory()
@@ -28,7 +38,7 @@ namespace Crm.UpSchool.DataAccessLayer.EntityFramework
             using (var context = new Context())
             {
                 return context.Employees.Include(x => x.Category).ToList();
-             }
+            }
         }
     }
 }

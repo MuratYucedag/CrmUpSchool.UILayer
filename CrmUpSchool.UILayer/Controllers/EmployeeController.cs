@@ -5,6 +5,7 @@ using Crm.UpSchool.DataAccessLayer.EntityFramework;
 using Crm.UpSchool.EntityLayer.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,11 @@ namespace CrmUpSchool.UILayer.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
-        public EmployeeController(IEmployeeService employeeService)
+        private readonly ICategoryService _categoryService;
+        public EmployeeController(IEmployeeService employeeService, ICategoryService categoryService)
         {
             _employeeService = employeeService;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
@@ -28,6 +31,13 @@ namespace CrmUpSchool.UILayer.Controllers
         [HttpGet]
         public IActionResult AddEmployee()
         {
+            List<SelectListItem> categoryValues = (from x in _categoryService.TGetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+            ViewBag.v = categoryValues;
             return View();
         }
 
@@ -43,7 +53,7 @@ namespace CrmUpSchool.UILayer.Controllers
             }
             else
             {
-                foreach(var item in result.Errors)
+                foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
@@ -57,8 +67,37 @@ namespace CrmUpSchool.UILayer.Controllers
             _employeeService.TDelete(values);
             return RedirectToAction("Index");
         }
+
+        public IActionResult ChangeStatusToFalse(int id)
+        {
+            _employeeService.TChangeEmployeeStatusToFalse(id);
+            return RedirectToAction("Index");
+        }
+        public IActionResult ChangeStatusToTrue(int id)
+        {
+            _employeeService.TChangeEmployeeStatusToTrue(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult UpdateEmployee(int id)
+        {
+            var values = _employeeService.TGetByID(id);
+            return View(values);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateEmployee(Employee employee)
+        {
+            var values = _employeeService.TGetByID(employee.EmployeeID);
+            employee.EmployeeStatus = values.EmployeeStatus;
+            _employeeService.TUpdate(employee);
+            return RedirectToAction("Index");
+        }
     }
 }
 //ninject
 //rulefor neden başlangıçta ctor metot olmadan gelmiyor
 //örnek bir yazılım analiz dokümanı
+
+//id eklenmemesine rağmen neden hata vermedi

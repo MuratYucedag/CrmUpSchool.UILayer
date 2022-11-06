@@ -27,8 +27,8 @@
     <span asp-validation-for="EmployeeImage" class="text-danger"></span>
     <br />
 
-    <label>Personel Soyadı</label>
-    <input type="text" asp-for="CategoryID" class="form-control" />
+    <label>Personel Departmanı</label>
+    @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.v, new { @class = "form-control" })
     <span asp-validation-for="CategoryID" class="text-danger"></span>
     <br />
     <button class="btn btn-info">Personeli Kaydet</button>
