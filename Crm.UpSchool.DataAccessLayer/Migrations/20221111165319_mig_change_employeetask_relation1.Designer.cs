@@ -4,14 +4,16 @@ using Crm.UpSchool.DataAccessLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Crm.UpSchool.DataAccessLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221111165319_mig_change_employeetask_relation1")]
+    partial class mig_change_employeetask_relation1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,9 +210,6 @@ namespace Crm.UpSchool.DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AppUserID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -224,8 +223,6 @@ namespace Crm.UpSchool.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmployeeTaskID");
-
-                    b.HasIndex("AppUserID");
 
                     b.ToTable("EmployeeTasks");
                 });
@@ -342,17 +339,6 @@ namespace Crm.UpSchool.DataAccessLayer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Crm.UpSchool.EntityLayer.Concrete.EmployeeTask", b =>
-                {
-                    b.HasOne("Crm.UpSchool.EntityLayer.Concrete.AppUser", "AppUser")
-                        .WithMany("EmployeeTasks")
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Crm.UpSchool.EntityLayer.Concrete.AppRole", null)
@@ -402,11 +388,6 @@ namespace Crm.UpSchool.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Crm.UpSchool.EntityLayer.Concrete.AppUser", b =>
-                {
-                    b.Navigation("EmployeeTasks");
                 });
 
             modelBuilder.Entity("Crm.UpSchool.EntityLayer.Concrete.Category", b =>
