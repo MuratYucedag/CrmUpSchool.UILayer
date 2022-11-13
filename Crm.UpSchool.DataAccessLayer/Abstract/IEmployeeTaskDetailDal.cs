@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Crm.UpSchool.DataAccessLayer.Abstract
 {
-    public interface IEmployeeTaskDal : IGenericDal<EmployeeTask>
+    public interface IEmployeeTaskDetailDal:IGenericDal<EmployeeTaskDetail>
     {
-        List<EmployeeTask> GetEmployeeTaskByEmployee();
-        List<EmployeeTask> GetEmployeeTaskById(int id);
+        List<EmployeeTaskDetail> GetEmployeeTaskDetailById(int id);
     }
 }

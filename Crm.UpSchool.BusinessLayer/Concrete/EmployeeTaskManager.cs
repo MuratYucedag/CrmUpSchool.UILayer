@@ -33,6 +33,11 @@ namespace Crm.UpSchool.BusinessLayer.Concrete
             return _employeeTaskDal.GetEmployeeTaskByEmployee();
         }
 
+        public List<EmployeeTask> TGetEmployeeTaskById(int id)
+        {
+            return _employeeTaskDal.GetEmployeeTaskById(id);
+        }
+
         public List<EmployeeTask> TGetList()
         {
             return _employeeTaskDal.GetList();

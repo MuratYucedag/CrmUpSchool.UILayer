@@ -15,5 +15,6 @@ namespace Crm.UpSchool.EntityLayer.Concrete
         public DateTime Date { get; set; }
         public int AppUserID { get; set; }
         public AppUser AppUser { get; set; }
+        public List<EmployeeTaskDetail> EmployeeTaskDetails { get; set; }
     }
 }
